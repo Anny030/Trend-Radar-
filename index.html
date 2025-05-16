@@ -1,0 +1,199 @@
+
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Trend Radar</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: linear-gradient(135deg, #ffe9ec, #f9f3d2);
+      margin: 0;
+      padding: 0;
+      color: #333;
+      position: relative;
+      overflow-x: hidden;
+    }header {
+  text-align: center;
+  padding: 2em 1em 1em;
+  background-color: rgba(255, 255, 255, 0.85);
+  border-radius: 0 0 30px 30px;
+  position: relative;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 2.2em;
+  color: #ff6584;
+}
+
+header p {
+  font-size: 1em;
+  margin-top: 0.4em;
+}
+
+.character {
+  width: 60px;
+  position: absolute;
+  animation: float 4s ease-in-out infinite;
+}
+
+.character.wave {
+  top: 10px;
+  left: 10px;
+}
+
+.character.pose {
+  top: 120px;
+  right: 15px;
+  animation-delay: 1s;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+main {
+  padding: 1em;
+}
+
+.trend {
+  background-color: #fff;
+  margin: 1em 0;
+  padding: 1em;
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  position: relative;
+}
+
+.trend h2 {
+  margin-top: 0;
+  color: #444;
+}
+
+.trend p {
+  font-size: 0.95em;
+}
+
+.trend::before {
+  content: '✨';
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  font-size: 1.5em;
+}
+
+.controls {
+  text-align: center;
+  margin: 1em 0;
+}
+
+.controls button, .controls input[type="text"] {
+  padding: 0.7em;
+  border-radius: 10px;
+  border: none;
+  font-size: 1em;
+  margin: 0.3em;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.controls input[type="text"] {
+  width: 60%;
+}
+
+.submit-form {
+  background: #fff3;
+  padding: 1em;
+  border-radius: 16px;
+  margin: 1em auto;
+  max-width: 400px;
+}
+
+.submit-form input, .submit-form textarea {
+  width: 100%;
+  margin: 0.5em 0;
+  padding: 0.6em;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-family: 'Outfit', sans-serif;
+}
+
+.submit-form button {
+  background: #ff6584;
+  color: white;
+  padding: 0.7em 1em;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+@media (min-width: 600px) {
+  main {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Trend Radar</h1>
+    <p>Discover the latest in fashion trends</p>
+    <img src="https://cdn-icons-png.flaticon.com/512/9474/9474566.png" class="character wave" alt="Character 1">
+    <img src="https://cdn-icons-png.flaticon.com/512/9474/9474561.png" class="character pose" alt="Character 2">
+  </header>  <div class="controls">
+    <input type="text" id="search" placeholder="Search trends...">
+    <button onclick="refreshTrends()">Refresh Trends</button>
+  </div>  <main id="trends"></main>  <div class="submit-form">
+    <h3>Submit a Trend</h3>
+    <input type="text" id="newTitle" placeholder="Trend Title">
+    <textarea id="newDesc" rows="3" placeholder="Trend Description"></textarea>
+    <button onclick="addTrend()">Add Trend</button>
+  </div>  <script>
+    let trends = [
+      { title: "Sustainable Fabrics", description: "Eco-friendly materials like organic cotton and recycled polyester are gaining popularity." },
+      { title: "Bold Colors", description: "Vibrant hues and color blocking are making a comeback on the runways." },
+      { title: "Vintage Revival", description: "Retro styles from the '70s and '90s are influencing modern fashion." },
+      { title: "Tech Wearables", description: "Integration of technology into clothing, like smart jackets and accessories." },
+      { title: "Minimalist Aesthetics", description: "Clean lines and neutral palettes define the minimalist trend." }
+    ];
+
+    function displayTrends(list) {
+      const container = document.getElementById('trends');
+      container.innerHTML = '';
+      list.forEach(trend => {
+        const div = document.createElement('div');
+        div.className = 'trend';
+        div.innerHTML = `<h2>${trend.title}</h2><p>${trend.description}</p>`;
+        container.appendChild(div);
+      });
+    }
+
+    function refreshTrends() {
+      alert('Trends refreshed!'); // Placeholder for future API
+      displayTrends(trends);
+    }
+
+    function addTrend() {
+      const title = document.getElementById('newTitle').value.trim();
+      const desc = document.getElementById('newDesc').value.trim();
+      if (title && desc) {
+        trends.unshift({ title, description: desc });
+        displayTrends(trends);
+        document.getElementById('newTitle').value = '';
+        document.getElementById('newDesc').value = '';
+      }
+    }
+
+    document.getElementById('search').addEventListener('input', function() {
+      const keyword = this.value.toLowerCase();
+      const filtered = trends.filter(t => t.title.toLowerCase().includes(keyword) || t.description.toLowerCase().includes(keyword));
+      displayTrends(filtered);
+    });
+
+    displayTrends(trends);
+  </script></body>
+</html>
